@@ -13,7 +13,7 @@ services:
       - "80:8000"
     # run command migrations and start
     command: sh -c 
-      "bin/console doctrine:schema:drop --full-database --force &&
+      "composer update && php bin/console doctrine:schema:drop --full-database --force &&
       rm -rf migrations/* &&
       php bin/console make:migration --no-interaction &&
       php bin/console doctrine:migrations:migrate --no-interaction &&
