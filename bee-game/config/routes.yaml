@@ -1,0 +1,13 @@
+index:
+   path: /
+   controller: App\Controller\BeeGameController::index
+
+# hit_bee
+hit_bee:
+  path: /hit
+  controller: App\Controller\BeeGameController::hit
+
+#   reset_game
+reset_game:
+   path: /reset
+   controller: App\Controller\BeeGameController::reset

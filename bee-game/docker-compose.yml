@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Web server and PHP service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symfony_app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "80:8000"
+    # run command migrations and start
+    command: sh -c 
+      "bin/console doctrine:schema:drop --full-database --force &&
+      rm -rf migrations/* &&
+      php bin/console make:migration --no-interaction &&
+      php bin/console doctrine:migrations:migrate --no-interaction &&
+      /usr/local/bin/wait-for-it.sh db:3306 -- symfony serve"
+    depends_on:
+      - db
+
+  # MySQL Database service
+  db:
+    image: mysql:8.0
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony_password
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data:

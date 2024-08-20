@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bee Game</title>
+    <link rel="stylesheet" href="/assets/style/styles.css">
+</head>
+<body>
+    <h1>Bee Game</h1>
+
+    <h2>Nest: {{ beesNest.name }}</h2>
+    <p>Total Bees: {{ beesNest.getNumberOfBees() }}</p>
+
+    <h3>Bee Types:</h3>
+    <ul>
+        {% for beeType, bee in bees %}
+            <li>
+                <div class="bee-row">
+                    {% for i in 1..bee.count %}
+                        <img width="30" height="30" src="
+                            {% if bee.type == 'Queen' %}
+                                /assets/queenBee.png
+                            {% elseif bee.type == 'Worker' %}
+                                /assets/workerBee.png
+                            {% elseif bee.type == 'Scout' %}
+                                /assets/scoutBee.png
+                            {% endif %}
+                        " alt="{{ bee.type }} Bee">
+                    {% endfor %}
+                </div>
+                <span>{{ bee.type }} - Hit Points: {{ bee.hitPoints }} - Damage: {{ bee.damage }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ path('hit_bee') }}" method="post">
+        <button type="submit">Hit a Bee</button>
+    </form>
+    
+    <form action="{{ path('reset_game') }}" method="post">
+        <button type="submit">Reset Game</button>
+    </form>
+</body>
+</html>
